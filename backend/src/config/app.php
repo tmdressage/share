@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Kreait\Laravel\Firebase\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FirebaseServiceProvider::class,
 
     ],
 
@@ -222,8 +223,10 @@ return [
         'Request' => Illuminate\Support\Facades\Request::class,
         'Response' => Illuminate\Support\Facades\Response::class,
         'Route' => Illuminate\Support\Facades\Route::class,
+        'Firebase' => Kreait\Laravel\Firebase\Facades\Firebase::class,
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
+        'ServiceProvider' => Kreait\Laravel\Firebase\ServiceProvider::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'Str' => Illuminate\Support\Str::class,
         'URL' => Illuminate\Support\Facades\URL::class,

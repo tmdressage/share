@@ -23,13 +23,12 @@ input {
 button {
     width: 120px;
     justify-self: center;
-    border: none;
-    border: solid 2px black;
     background-color: #5419DA;
     color: #fff;
     padding: 10px;
     font-size: 16px;
     border-radius: 30px;
+    border: linear-gradient(175deg, gray 50%, black 50%);
 }
 
 button:hover {
@@ -115,6 +114,11 @@ form {
     opacity: 0.7;
 }
 
+.home {
+    display: flex;
+    flex-direction: row;
+}
+
 .sidebar {
     width: 400px;
 }
@@ -128,14 +132,14 @@ form {
     height: 40px;
 }
 
-.sidebar__content--home,
+.sidebar__content--post,
 .sidebar__content--logout,
 .sidebar__content--share-button {
     margin: 18px auto;
     display: flex;
 }
 
-.sidebar__content--home-logo,
+.sidebar__content--post-logo,
 .sidebar__content--logout-logo {
     width: 35px;
     height: 35px;
@@ -164,19 +168,15 @@ form {
 }
 
 .share-button {
-    margin-left: auto;
+    margin-left: 150px;
 }
 
-.share {
-    display: flex;
-}
-
-.home {
+.post {
     width: 100%;
     height: 50px;
 }
 
-.home__title {
+.post__title {
     margin-left: 25px;
     padding-left: 10px;
     border: 1px solid lightgray;
@@ -184,14 +184,25 @@ form {
     border-right: none;
 }
 
-.home__title--text {
+.post__title--text {
     color: #FFF;
     font-size: 20px;
     font-weight: bold;
     line-height: 50px;
 }
 
-.post {
+.post__all {
+    overflow-y: scroll;
+    height: 610px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.post__all::-webkit-scrollbar {
+    display: none;
+}
+
+.posts {
     margin-left: 25px;
     padding: 10px;
     border: 1px solid lightgray;
@@ -220,19 +231,45 @@ form {
     color: #FFF;
     font-size: 20px;
     line-height: 55px;
-
 }
 
-.post__content--delete {
+.delete-button,
+.like-button,
+.detail-button
+ {
+    margin-right:25px;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 30px;
+    cursor: pointer;
+}
+
+.delete-button:focus,
+.like-button:focus,
+.detail-button {
+    outline: none;
+}
+
+
+.post__content--delete,
+.post__content--like {
     width: 30px;
     height: 30px;
-    margin: 10px;
+    margin: 10px 0px 10px 15px;
 }
+
+.post__content--delete:hover,
+.post__content--like:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
 
 .post__content--detail {
     width: 35px;
     height: 30px;
-    margin: 10px 10px 10px 40px;
+    margin: 10px 10px 10px 30px;
 }
 
 .post__message--text {
@@ -287,4 +324,8 @@ form {
 .comment-button {
     margin-right: 10px;
     margin-left: auto;
+}
+
+.error-message{
+    color:#FFF;
 }

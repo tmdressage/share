@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ListController;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\LikeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +17,19 @@ use App\Http\Controllers\ListController;
 |
 */
 
-Route::get('list',[ListController::class, 'index']);
+Route::get('/user-details', [UserController::class, 'getUserDetails']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::get('/posts', [PostController::class, 'index']);
+Route::post('/posts', [PostController::class, 'store']);
+Route::delete('/posts/{postId}', [PostController::class, 'destroy']);
+
+Route::get('/posts/{postId}/like', [LikeController::class, 'liked']);
+Route::post('/posts/{postId}/like', [LikeController::class, 'like']);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
