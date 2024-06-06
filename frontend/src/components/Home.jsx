@@ -12,6 +12,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState(""); // ポストする内容を保持する
   const [error, setError] = useState("");
+  const [showComments, setShowComments] = useState(null); // コメントを表示する投稿IDを保持
   const [likes, setLikes] = useState({}); // ポストごとのいいね数を保持する
   const navigate = useNavigate();
 
@@ -32,8 +33,9 @@ const Home = () => {
             `http://localhost/api/user-details?email=${currentUser.email}`
           );
           setUserDetails({ id: response.data.id, name: response.data.name }); // 取得したユーザーIDと名前をセット
+          console.log("ユーザー情報取得成功");
         } catch (error) {
-          console.error("ユーザーIDと名前の取得に失敗しました:", error);
+          console.error("ユーザー情報取得失敗:", error);
         }
         setUser(currentUser);
       } else {
@@ -66,7 +68,7 @@ const Home = () => {
       try {
         for (const post of posts) {
           const response = await axios.get(
-            `http://localhost/api/posts/${post.id}/like`
+            `http://localhost/api/posts/${post.id}/likes`
           );
           likesCount[post.id] = response.data.likes;
         }
@@ -122,7 +124,7 @@ const Home = () => {
   const clickLike = async (postId) => {
     try {
       const response = await axios.post(
-        `http://localhost/api/posts/${postId}/like`,
+        `http://localhost/api/posts/${postId}/likes`,
         { user_id: userDetails.id }
       ); //${postId}は引数、{ user_id: userDetails.id }はリクエストとしてコントローラへ渡す。(配列userDetailsの中のidの値をuser_idという名称でコントローラへ渡す）
       setLikes((prevLikes) => ({
@@ -133,6 +135,11 @@ const Home = () => {
     } catch (error) {
       console.error("いいね失敗:", error.message);
     }
+  };
+
+  const handleShowComments = (postId) => {
+    navigate(`/${postId}/comments`, { state: { userDetails, postId } });
+    setShowComments(postId);
   };
 
   if (!loading && !user) {
@@ -229,7 +236,7 @@ const Home = () => {
                       )}
                       <button
                         className="detail-button"
-                        onClick={() => handleDelete(post.id)}
+                        onClick={() => handleShowComments(post.id)}
                       >
                         <img
                           className="post__content--detail"
@@ -241,6 +248,9 @@ const Home = () => {
                     <div className="post__message">
                       <p className="post__message--text">{post.post}</p>
                     </div>
+                    {showComments === post.id && userDetails.id && (
+                      <Comment postId={post.id} userDetails={userDetails} />
+                    )}
                   </div>
                 ))}
               </div>

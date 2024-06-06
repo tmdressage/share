@@ -13,9 +13,10 @@ const App = () => {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -26,7 +27,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={user ? <Home /> : <Login />} />
-          <Route path="/comment" element={user ? <Comment /> : <Login />} />
+          <Route path="/:postId/comments" element={user ? <Comment /> : <Login />} />
         </Routes>
       </BrowserRouter>
     </div>
