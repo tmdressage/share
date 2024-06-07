@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
 // use Kreait\Firebase\Auth;
@@ -20,7 +19,7 @@ class CommentController extends Controller
     }
 
     // コメントの投稿
-    public function store(Request $request, $postId)    {
+    public function store(CommentRequest $request, $postId)    {
 
         $comment = $request->input('comment');
         $user_id = $request->input('user_id');

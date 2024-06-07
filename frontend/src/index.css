@@ -52,7 +52,7 @@ form {
 .register__content {
     margin: 80px auto;
     width: 450px;
-    height: 350px;
+    height: 380px;
     background-color: #FFF;
     border-radius: 10px;
 }
@@ -155,6 +155,12 @@ form {
     color: #FFF;
 }
 
+.sidebar__content--share-text-disabled {
+    font-size: 17px;
+    color: #FFF;
+    opacity: 0.7;
+}
+
 .textarea {
     font-family: Meiryo;
     padding: 10px;
@@ -165,18 +171,41 @@ form {
     border-radius: 15px;
     border: 1px solid lightgray;
     background-color: #15202B;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .share-button {
     margin-left: 150px;
 }
 
-.post {
+.share-button-disabled {
+    margin-left: 150px;
+    opacity: 0.7;
+}
+
+.textarea-disabled {
+    font-family: Meiryo;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 16px;
+    color: #FFF;
+    resize: none;
+    border-radius: 15px;
+    border: 1px solid lightgray;
+    background-color: #1d262e;
+    opacity: 0.7;
+}
+
+.post,
+.comment {
     width: 100%;
     height: 50px;
 }
 
-.post__title {
+.post__title,
+.comment__title {
     margin-left: 25px;
     padding-left: 10px;
     border: 1px solid lightgray;
@@ -184,7 +213,8 @@ form {
     border-right: none;
 }
 
-.post__title--text {
+.post__title--text,
+.comment__title--text {
     color: #FFF;
     font-size: 20px;
     font-weight: bold;
@@ -193,12 +223,21 @@ form {
 
 .post__all {
     overflow-y: scroll;
-    height: 610px;
+    height: 600px;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.post__all::-webkit-scrollbar {
+.comment__all {
+    overflow-y: scroll;
+    height: 300px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.post__all::-webkit-scrollbar,
+.comment__all::-webkit-scrollbar
+{
     display: none;
 }
 
@@ -235,9 +274,8 @@ form {
 
 .delete-button,
 .like-button,
-.detail-button
- {
-    margin-right:25px;
+.detail-button {
+    margin-right: 25px;
     background: none;
     border: none;
     padding: 0;
@@ -274,10 +312,10 @@ form {
 
 .post__message--text {
     color: #FFF;
-    font-size: 17px;
+    font-size: 15px;
 }
 
-.comment {
+.comment__subtitle {
     margin-left: 25px;
     padding: 10px;
     border: 1px solid lightgray;
@@ -285,7 +323,7 @@ form {
     border-right: none;
 }
 
-.comment__title {
+.comment__subtitle--text {
     color: #FFF;
     font-size: 17px;
     text-align: center;
@@ -308,17 +346,16 @@ form {
 
 .comment__content--detail {
     color: #FFF;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .comment__post {
-    margin-left: 40px;
+    margin: 15px 0px 0px 40px;
 }
 
 .comment__post-button {
-    margin: 18px auto;
+    margin: 15px auto;
     display: flex;
-
 }
 
 .comment-button {
@@ -326,6 +363,6 @@ form {
     margin-left: auto;
 }
 
-.error-message{
-    color:#FFF;
+.error-message {
+    color: #FFF;
 }

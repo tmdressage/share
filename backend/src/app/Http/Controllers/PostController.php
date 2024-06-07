@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 // use Kreait\Firebase\Auth;
 // use Illuminate\Support\Facades\Auth;
@@ -18,7 +17,7 @@ class PostController extends Controller
         return response()->json(['posts' => $posts]);
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {      
         $post = $request->input('post');
         $user_id = $request->input('user_id');

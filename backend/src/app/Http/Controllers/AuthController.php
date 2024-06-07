@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-// use App\Http\Requests\LoginRequest;
-// use App\Http\Requests\RegisterRequest;
-// use Kreait\Firebase\Auth;
-// use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+// use Kreait\Firebase\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -20,7 +19,7 @@ class AuthController extends Controller
     // }
 
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $user = User::create([
             'name' => $request->input('name'),
@@ -29,19 +28,19 @@ class AuthController extends Controller
         ]);
 
         // ユーザー登録成功時の処理
-        return response()->json(['message' => 'User registered successfully', 'user' => $user]);
+        return response()->json(['user' => $user]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         // フロントエンドから送信されたユーザー情報を使用
         $email = $request->input('email');
         // ユーザー情報を取得
         $user = User::where('email', $email)->first();
         if ($user) {
-            return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
+            return response()->json(['user' => $user]);
         } else {
-            return response()->json(['message' => 'User not found']);
+            return response()->json(['error' => 'User not found']);
         }
     }
 }

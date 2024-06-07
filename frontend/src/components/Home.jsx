@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./FirebaseConfig.jsx";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import Comment from "./Comment";
+import { Navigate, useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const Home = () => {
-  const [user, setUser] = useState(null); // userオブジェクトを保持
-  const [userDetails, setUserDetails] = useState({ id: null, name: "" }); // usersテーブルのIDと名前を保持
-  const [posts, setPosts] = useState([]); // ポストごとの内容を保持する
+  const [user, setUser] = useState(null);
+  const [userDetails, setUserDetails] = useState({ id: null, name: "" });
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [post, setPost] = useState(""); // ポストする内容を保持する
-  const [error, setError] = useState("");
-  const [showComments, setShowComments] = useState(null); // コメントを表示する投稿IDを保持
-  const [likes, setLikes] = useState({}); // ポストごとのいいね数を保持する
+  const [likes, setLikes] = useState({});
   const navigate = useNavigate();
-
-  const logout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
-
-  const home = async () => {
-    navigate("/");
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -32,10 +20,10 @@ const Home = () => {
           const response = await axios.get(
             `http://localhost/api/user-details?email=${currentUser.email}`
           );
-          setUserDetails({ id: response.data.id, name: response.data.name }); // 取得したユーザーIDと名前をセット
+          setUserDetails({ id: response.data.id, name: response.data.name });
           console.log("ユーザー情報取得成功");
-        } catch (error) {
-          console.error("ユーザー情報取得失敗:", error);
+        } catch (e) {
+          console.log("ユーザー情報取得失敗");
         }
         setUser(currentUser);
       } else {
@@ -74,8 +62,8 @@ const Home = () => {
         }
         setLikes(likesCount);
         console.log("いいね取得成功");
-      } catch (error) {
-        console.error("いいね取得失敗:", error.message);
+      } catch (e) {
+        console.log("いいね取得失敗");
       }
     };
 
@@ -83,23 +71,6 @@ const Home = () => {
       fetchLikeStatus();
     }
   }, [posts]);
-
-  const sharePost = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost/api/posts", {
-        post,
-        user_id: userDetails.id,
-      });
-      const response = await axios.get("http://localhost/api/posts");
-      setPosts(response.data.posts);
-      setPost("");
-      console.log("保存成功");
-    } catch (error) {
-      setError("テキストの保存中にエラーが発生しました");
-      console.error("保存失敗:", error.message);
-    }
-  };
 
   const handleDelete = (postId) => {
     deletePost(postId);
@@ -111,9 +82,8 @@ const Home = () => {
       const response = await axios.get("http://localhost/api/posts");
       setPosts(response.data.posts);
       console.log("削除成功");
-    } catch (error) {
-      setError("テキストの削除中にエラーが発生しました");
-      console.error("削除失敗:", error.message);
+    } catch (e) {
+      console.log("削除失敗");
     }
   };
 
@@ -132,14 +102,13 @@ const Home = () => {
         [postId]: response.data.likes,
       }));
       console.log("いいね成功");
-    } catch (error) {
-      console.error("いいね失敗:", error.message);
+    } catch (e) {
+      console.log("いいね失敗");
     }
   };
 
-  const handleShowComments = (postId) => {
-    navigate(`/${postId}/comments`, { state: { userDetails, postId } });
-    setShowComments(postId);
+  const handleShowComments = (post) => {
+    navigate(`/${post.id}/comments`, { state: { userDetails, post } });
   };
 
   if (!loading && !user) {
@@ -151,55 +120,7 @@ const Home = () => {
       {!loading && (
         <>
           <div className="home">
-            <div className="sidebar">
-              <div className="sidebar__content">
-                <img
-                  className="sidebar__content--logo"
-                  src="img/logo.png"
-                  alt="Share"
-                ></img>
-                <div className="sidebar__content--post">
-                  <img
-                    className="sidebar__content--post-logo"
-                    src="img/home.png"
-                    alt="home"
-                  ></img>
-                  <Link className="nav-link" onClick={home}>
-                    ホーム
-                  </Link>
-                </div>
-                <div className="sidebar__content--logout">
-                  <img
-                    className="sidebar__content--logout-logo"
-                    src="img/logout.png"
-                    alt="logout"
-                  ></img>
-                  <Link className="nav-link" onClick={logout}>
-                    ログアウト
-                  </Link>
-                </div>
-                <div className="sidebar__content--share">
-                  <p className="sidebar__content--share-text">シェア</p>
-                  {error && <p className="error-message">{error}</p>}
-                  <form onSubmit={sharePost}>
-                    <textarea
-                      className="textarea"
-                      name="text"
-                      cols="35"
-                      rows="6"
-                      id="count"
-                      value={post}
-                      onChange={(e) => setPost(e.target.value)}
-                    ></textarea>
-                    <div className="sidebar__content--share-button">
-                      <button className="share-button" type="submit">
-                        シェアする
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+            <Sidebar userDetails={userDetails} setPosts={setPosts} />
             <div className="post">
               <div className="post__title">
                 <p className="post__title--text">ホーム</p>
@@ -215,7 +136,7 @@ const Home = () => {
                       >
                         <img
                           className="post__content--like"
-                          src="img/heart.png"
+                          src={"/img/heart.png"}
                           alt="like"
                         ></img>
                       </button>
@@ -229,18 +150,18 @@ const Home = () => {
                         >
                           <img
                             className="post__content--delete"
-                            src="img/cross.png"
+                            src={"/img/cross.png"}
                             alt="delete"
                           />
                         </button>
                       )}
                       <button
                         className="detail-button"
-                        onClick={() => handleShowComments(post.id)}
+                        onClick={() => handleShowComments(post)}
                       >
                         <img
                           className="post__content--detail"
-                          src="img/detail.png"
+                          src={"/img/detail.png"}
                           alt="detail"
                         ></img>
                       </button>
@@ -248,9 +169,6 @@ const Home = () => {
                     <div className="post__message">
                       <p className="post__message--text">{post.post}</p>
                     </div>
-                    {showComments === post.id && userDetails.id && (
-                      <Comment postId={post.id} userDetails={userDetails} />
-                    )}
                   </div>
                 ))}
               </div>
