@@ -11,7 +11,7 @@ return [
     'default' => env('FIREBASE_PROJECT', 'app'),
 
     'credentials' => [
-        'file' => env('FIREBASE_CREDENTIALS'),
+        'file' => env('FIREBASE_CREDENTIALS')
     ],
     /*
      * ------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return [
              *
              */
             'credentials' => [
-                'file' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+                'file' => env('FIREBASE_CREDENTIALS'),
 
                 /*
                  * If you want to prevent the auto discovery of credentials, set the

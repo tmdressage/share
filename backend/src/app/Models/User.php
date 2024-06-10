@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+
 
 class User extends Authenticatable
 {
@@ -57,7 +60,27 @@ class User extends Authenticatable
     }
 
 
+    public function createFirebaseUser()
+    {
+        $factory = (new Factory)->withServiceAccount(config('firebase.credentials.file'));
+        $auth = $factory->createAuth();
 
+        $userProperties = [
+            'email' => $this->email,
+            'emailVerified' => false,
+            'password' => $this->password, // プレーンテキストのパスワードを使用
+            'displayName' => $this->name,
+            'disabled' => false,
+        ];
+
+        try {
+            $createdUser = $auth->createUser($userProperties);
+            return $createdUser;
+        } catch (\Kreait\Firebase\Exception\AuthException $e) {
+            // エラーハンドリング
+            throw new \Exception('Firebase Auth Error: ' . $e->getMessage());
+        }
+    }
 
 
 

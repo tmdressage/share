@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
-// use Kreait\Firebase\Auth;
-// use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {

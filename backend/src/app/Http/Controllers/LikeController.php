@@ -4,23 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use Illuminate\Http\Request;
-// use Kreait\Firebase\Auth;
-// use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
 
     public function Liked($postId)
     { 
-        // $user_id = Auth::user()->id;
-
         $likes = Like::where('post_id', $postId)->count();       
         return response()->json(['likes' => $likes]);
     }
 
     public function Like(Request $request, $postId)
     {
-        // $user_id = Auth::user()->id;
         $user_id = $request->input('user_id');  
         $already_like = Like::where('user_id', $user_id)->where('post_id', $postId)->first();
 

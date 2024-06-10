@@ -6,18 +6,16 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-// use Kreait\Firebase\Auth;
-// use Illuminate\Support\Facades\Auth;
+use Kreait\Firebase\Contract\Auth;
 
 class AuthController extends Controller
 {
-    // protected $auth;
+    protected $auth;
 
-    // public function __construct(Auth $auth)
-    // {
-    //     $this->auth = $auth;
-    // }
-
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
 
     public function register(RegisterRequest $request)
     {
@@ -33,6 +31,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        
         // フロントエンドから送信されたユーザー情報を使用
         $email = $request->input('email');
         // ユーザー情報を取得
@@ -40,7 +39,8 @@ class AuthController extends Controller
         if ($user) {
             return response()->json(['user' => $user]);
         } else {
-            return response()->json(['error' => 'User not found']);
+            return response()->json(['error' => 'ユーザが見つかりませんでした'], 404);
         }
     }
+    
 }
