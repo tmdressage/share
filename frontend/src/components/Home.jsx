@@ -16,15 +16,10 @@ const Home = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        try {
-          const response = await axios.get(
-            `http://localhost/api/user-details?email=${currentUser.email}`
-          );
-          setUserDetails({ id: response.data.id, name: response.data.name });
-          console.log("ユーザー情報取得成功");
-        } catch (e) {
-          console.log("ユーザー情報取得失敗");
-        }
+        const response = await axios.get(
+          `http://localhost/api/user-details?email=${currentUser.email}`
+        );
+        setUserDetails({ id: response.data.id, name: response.data.name });
         setUser(currentUser);
       } else {
         setUser(null);
@@ -37,36 +32,24 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await axios.get("http://localhost/api/posts");
-        setPosts(response.data.posts);
-        console.log("表示成功");
-        setLoading(false);
-      } catch (e) {
-        console.log("表示失敗");
-      }
+      const response = await axios.get("http://localhost/api/posts");
+      setPosts(response.data.posts);
+      setLoading(false);
     };
-
     fetchPosts();
   }, []);
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
       const likesCount = {};
-      try {
-        for (const post of posts) {
-          const response = await axios.get(
-            `http://localhost/api/posts/${post.id}/likes`
-          );
-          likesCount[post.id] = response.data.likes;
-        }
-        setLikes(likesCount);
-        console.log("いいね取得成功");
-      } catch (e) {
-        console.log("いいね取得失敗");
+      for (const post of posts) {
+        const response = await axios.get(
+          `http://localhost/api/posts/${post.id}/likes`
+        );
+        likesCount[post.id] = response.data.likes;
       }
+      setLikes(likesCount);
     };
-
     if (posts.length > 0) {
       fetchLikeStatus();
     }
@@ -77,14 +60,9 @@ const Home = () => {
   };
 
   const deletePost = async (postId) => {
-    try {
-      await axios.delete(`http://localhost/api/posts/${postId}`);
-      const response = await axios.get("http://localhost/api/posts");
-      setPosts(response.data.posts);
-      console.log("削除成功");
-    } catch (e) {
-      console.log("削除失敗");
-    }
+    await axios.delete(`http://localhost/api/posts/${postId}`);
+    const response = await axios.get("http://localhost/api/posts");
+    setPosts(response.data.posts);
   };
 
   const handleLike = (postId) => {
@@ -92,19 +70,14 @@ const Home = () => {
   };
 
   const clickLike = async (postId) => {
-    try {
-      const response = await axios.post(
-        `http://localhost/api/posts/${postId}/likes`,
-        { user_id: userDetails.id }
-      ); //${postId}は引数、{ user_id: userDetails.id }はリクエストとしてコントローラへ渡す。(配列userDetailsの中のidの値をuser_idという名称でコントローラへ渡す）
-      setLikes((prevLikes) => ({
-        ...prevLikes,
-        [postId]: response.data.likes,
-      }));
-      console.log("いいね成功");
-    } catch (e) {
-      console.log("いいね失敗");
-    }
+    const response = await axios.post(
+      `http://localhost/api/posts/${postId}/likes`,
+      { user_id: userDetails.id }
+    ); //${postId}は引数、{ user_id: userDetails.id }はリクエストとしてコントローラへ渡す。(配列userDetailsの中のidの値をuser_idという名称でコントローラへ渡す）
+    setLikes((prevLikes) => ({
+      ...prevLikes,
+      [postId]: response.data.likes,
+    }));
   };
 
   const handleShowComments = (post) => {

@@ -25,7 +25,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        // ユーザー登録成功時の処理
         return response()->json(['user' => $user]);
     }
 

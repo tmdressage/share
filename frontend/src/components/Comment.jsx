@@ -17,22 +17,14 @@ const Comment = () => {
 
   useEffect(() => {
     const fetchCommentsAndLikes = async () => {
-      try {
-        const commentsResponse = await axios.get(
-          `http://localhost/api/posts/${post.id}/comments`
-        );
-        setComments(commentsResponse.data.comments);
-        console.log("userDetails:", userDetails); // ログを追加して確認
-        console.log("postId:", post.id); // ログを追加して確認
-
-        const likesResponse = await axios.get(
-          `http://localhost/api/posts/${post.id}/likes`
-        );
-        setLikes(likesResponse.data.likes);
-        console.log("コメントといいね表示成功");
-      } catch (e) {
-        console.log("コメントといいね表示失敗");
-      }
+      const commentsResponse = await axios.get(
+        `http://localhost/api/posts/${post.id}/comments`
+      );
+      setComments(commentsResponse.data.comments);
+      const likesResponse = await axios.get(
+        `http://localhost/api/posts/${post.id}/likes`
+      );
+      setLikes(likesResponse.data.likes);
     };
 
     fetchCommentsAndLikes();
@@ -52,7 +44,6 @@ const Comment = () => {
       );
       setComments(response.data.comments);
       setNewComment(""); // コメント投稿欄をリセット
-      console.log("コメント投稿成功");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         // Laravelのバリデーションエラーメッセージを設定
@@ -60,31 +51,20 @@ const Comment = () => {
       } else {
         setErrors({ general: "登録内容でエラーが発生しました" });
       }
-      console.error("コメント投稿失敗", error);
     }
   };
 
   const handleDelete = async (postId) => {
-    try {
-      await axios.delete(`http://localhost/api/posts/${postId}`);
-      console.log("投稿削除成功");
-      navigate("/"); //ホームへ強制遷移する
-    } catch (e) {
-      console.log("投稿削除失敗");
-    }
+    await axios.delete(`http://localhost/api/posts/${postId}`);
+    navigate("/"); //ホームへ強制遷移する
   };
 
   const handleLike = async (postId) => {
-    try {
-      const response = await axios.post(
-        `http://localhost/api/posts/${postId}/likes`,
-        { user_id: userDetails.id }
-      );
-      setLikes(response.data.likes);
-      console.log("いいね成功");
-    } catch (e) {
-      console.log("いいね失敗");
-    }
+    const response = await axios.post(
+      `http://localhost/api/posts/${postId}/likes`,
+      { user_id: userDetails.id }
+    );
+    setLikes(response.data.likes);
   };
 
   return (

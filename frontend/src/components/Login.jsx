@@ -19,11 +19,8 @@ const Login = () => {
         email: loginEmail,
         password: loginPassword,
       });
-
       // バリデーション成功後にFirebase Authenticationにログイン
-
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      console.log("ログイン成功");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         // Laravelのバリデーションエラーメッセージを設定
@@ -31,7 +28,6 @@ const Login = () => {
       } else {
         setErrors({ general: "登録内容でエラーが発生しました" });
       }
-      console.error("ログイン失敗", error);
     }
   };
 

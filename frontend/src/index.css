@@ -236,8 +236,7 @@ form {
 }
 
 .post__all::-webkit-scrollbar,
-.comment__all::-webkit-scrollbar
-{
+.comment__all::-webkit-scrollbar {
     display: none;
 }
 

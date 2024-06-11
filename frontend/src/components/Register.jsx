@@ -24,15 +24,12 @@ const Register = () => {
         email: registerEmail,
         password: registerPassword,
       });
-
       // バリデーション成功後にFirebase Authenticationにユーザーを登録
       await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
-
-      console.log("登録成功");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         // Laravelのバリデーションエラーメッセージを設定
@@ -40,7 +37,6 @@ const Register = () => {
       } else {
         setErrors({ general: "登録内容でエラーが発生しました" });
       }
-      console.error("登録失敗", error);
     }
   };
 

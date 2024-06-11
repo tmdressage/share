@@ -23,7 +23,7 @@ const Sidebar = ({ userDetails, setPosts }) => {
     e.preventDefault();
     setErrors({});
     try {
-        // Laravelのバックエンドに投稿情報を送信
+      // Laravelのバックエンドに投稿情報を送信
       await axios.post("http://localhost/api/posts", {
         post,
         user_id: userDetails.id,
@@ -31,7 +31,6 @@ const Sidebar = ({ userDetails, setPosts }) => {
       const response = await axios.get("http://localhost/api/posts");
       setPosts(response.data.posts); // 投稿成功後にsetPostsを画面に呼び出し
       setPost(""); // 投稿成功後にpostをリセット
-      console.log("保存成功");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         // Laravelのバリデーションエラーメッセージを設定
@@ -39,18 +38,18 @@ const Sidebar = ({ userDetails, setPosts }) => {
       } else {
         setErrors({ general: "登録内容でエラーが発生しました" });
       }
-      console.error("保存失敗", error);
     }
   };
 
-  const isCommentPage = location.pathname.includes("/comments"); // 現在のパスがコメントページかどうかを判定
+  const isCommentPage = location.pathname.includes("/comments");
+  // 現在のパスがコメントページかどうかを判定
 
   return (
     <div className="sidebar">
       <div className="sidebar__content">
         <img
           className="sidebar__content--logo"
-          src={"/img/logo.png"} //JavaScriptの式として渡す場合: src={"/img/logo.png"}のように括弧で囲むと、JavaScriptの式として評価されます。これは通常、プロジェクトのpublicディレクトリからの相対パスとして正しく解釈されます。publicディレクトリからの相対パスで画像を表示するために、JavaScriptの式としてパスを渡す方法が一般的です。
+          src={"/img/logo.png"}
           alt="Share"
         ></img>
         <div className="sidebar__content--post">

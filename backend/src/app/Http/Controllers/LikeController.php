@@ -30,7 +30,7 @@ class LikeController extends Controller
 
             return response()->json(['likes' => $likes]);
         } else {
-            // お気に入り登録されていたらレコードを削除（お気に入り解除）
+            // いいね登録されていたらレコードを削除（いいね解除）
             Like::where('post_id', $postId)->where('user_id', $user_id)->delete();
 
             $likes = Like::where('post_id', $postId)->count();
