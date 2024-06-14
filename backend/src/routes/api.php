@@ -34,6 +34,6 @@ Route::get('/posts/{postId}/comments', [CommentController::class, 'index']);
 Route::post('/posts/{postId}/comments', [CommentController::class, 'store']);
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-
 
 class User extends Authenticatable
 {
@@ -49,12 +47,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function Likes()
+    public function likes()
     {
         return $this->hasMany(Like::class);
     }
 
-    public function Comments()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
@@ -77,7 +75,6 @@ class User extends Authenticatable
             $createdUser = $auth->createUser($userProperties);
             return $createdUser;
         } catch (\Kreait\Firebase\Exception\AuthException $e) {
-            // エラーハンドリング
             throw new \Exception('Firebase Auth Error: ' . $e->getMessage());
         }
     }
