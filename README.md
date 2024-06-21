@@ -101,7 +101,7 @@ $ docker-compose exec php bash
 $ php artisan key:generate
 ```
 <br>
-※上記以外はFirebaseの認証情報が関わるため非公開。
+※Firebaseの認証情報が関わるため詳細は非公開とします。<br>
 
 **5、テーブルの作成**<br>
 <br>
