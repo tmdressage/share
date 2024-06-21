@@ -1,9 +1,12 @@
 2024/6/13新規作成
 # アプリケーション名
-share（Twitter風SNSアプリ）
+share（Twitter風SNSアプリ）<br>
+![スクリーンショット 2024-06-21 111228](https://github.com/tmdressage/share/assets/144135026/a9f344c1-b877-49a5-b43a-1e9d61e865f3)
 
 ## 作成した目的
-フロントエンド学習用
+フロントエンド自己学習用。<br>
+フロントエンドにreact.js、バックエンドにlaravel(php)を用いて作成しました。<br>
+認証機能にはFirebaseを使用しています。<br>
  
 ## アプリケーションURL
 http://localhost/login<br>
@@ -15,7 +18,6 @@ http://localhost:8080/
 無し
 
 ## 機能一覧
-**基本機能**<br>
 ・会員登録<br>
 ・ログイン<br>
 ・ログアウト<br>
@@ -30,18 +32,19 @@ http://localhost:8080/
  
 ## 使用技術（実行環境）
 OS：Linux（Ubuntu）<br>
-環境：Docker Desktop v4.23.0<br>
-言語：PHP 7.4.9、JQuery 3.7.1<br>
-フレームワーク：Laravel 8<br>
+環境：Docker Desktop 4.23.0<br>
+言語：PHP 8.2.10、javascript<br>
+ライブラリ：React.js 18.3.1<br>
+フレームワーク：Laravel 8.83.27<br>
 DB：mysql 8.0.26<br>
 WEBサーバソフトウェア：nginx 1.21.1<br>
-エディタ：VSCode 1.84.0<br>
+エディタ：VSCode 1.90.2<br>
 
 ## テーブル設計
-
+![スクリーンショット 2024-06-21 113833](https://github.com/tmdressage/share/assets/144135026/dc2a5526-d5cc-4f29-a5aa-923962c33ac3)
 
 ## ER図
-
+![スクリーンショット 2024-06-21 113529](https://github.com/tmdressage/share/assets/144135026/a910c3b1-24bc-47e6-9918-54c3ad6215c9)
 
 ## 環境構築
 **1、リポジトリの設定**<br>
