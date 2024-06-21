@@ -79,7 +79,10 @@ $ composer install
 <br>
 (コマンドライン上)<br>
 ```
-$ cd src/
+$ cd frontend/src/
+$ touch .env
+$ cd ../../
+$ cd backend/src/
 $ cp .env.example .env
 $ cd ../
 $ docker-compose exec php bash
